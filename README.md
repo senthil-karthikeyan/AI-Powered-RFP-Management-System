@@ -112,6 +112,35 @@ Backend will be available at `http://localhost:8000`.
 
 API documentation: `http://localhost:8000/api/docs`
 
+#### Setup ngrok for Inbound Email (Required)
+
+To receive vendor responses via email, you need to expose your local backend to the internet using ngrok:
+
+1. **Install ngrok** (if not already installed):
+
+   ```bash
+   # macOS
+   brew install ngrok
+
+   # Or download from https://ngrok.com/download
+   ```
+
+2. **Start ngrok tunnel**:
+
+   ```bash
+   ngrok http 8000
+   ```
+
+3. **Configure SendGrid Inbound Parse**:
+   - Copy the ngrok HTTPS URL (e.g., `https://abc123.ngrok.io`)
+   - Go to SendGrid Dashboard → Settings → Inbound Parse
+   - Add a new host & URL: `https://abc123.ngrok.io/api/emails/inbound`
+   - Set the domain you want to receive emails on
+
+4. **Test**: Send an email to the configured address, and the webhook will trigger the `/api/emails/inbound` endpoint.
+
+> **Note**: ngrok URLs change on restart. Update SendGrid's Inbound Parse URL whenever you restart ngrok.
+
 ### 3. Frontend Setup
 
 #### Environment Configuration

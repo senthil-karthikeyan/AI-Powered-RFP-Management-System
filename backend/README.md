@@ -183,6 +183,46 @@ yarn start
 
 ---
 
+## 🌐 Exposing Backend with ngrok (Required for Inbound Email)
+
+To receive vendor email responses via SendGrid's Inbound Parse webhook, your local backend must be accessible from the internet. Use **ngrok** to create a secure tunnel:
+
+### Install ngrok
+
+```bash
+# macOS
+brew install ngrok
+
+# Or download from https://ngrok.com/download
+```
+
+### Start ngrok Tunnel
+
+```bash
+ngrok http 8000
+```
+
+This will output a public HTTPS URL like `https://abc123.ngrok.io`.
+
+### Configure SendGrid Inbound Parse
+
+1. Go to [SendGrid Dashboard → Settings → Inbound Parse](https://app.sendgrid.com/settings/parse)
+2. Click **Add Host & URL**
+3. Enter your ngrok URL with the webhook path:
+   ```
+   https://abc123.ngrok.io/api/emails/inbound
+   ```
+4. Set the subdomain/domain you want to receive emails on (e.g., `rfp@yourdomain.com`)
+5. Save the configuration
+
+### Testing
+
+Send a test email to the configured address. The email will be forwarded to your local backend via the ngrok tunnel, triggering the `/api/emails/inbound` endpoint.
+
+> **Important**: ngrok URLs change every time you restart ngrok. You'll need to update the SendGrid Inbound Parse URL accordingly.
+
+---
+
 ## 📚 API Documentation
 
 Swagger UI is available at:
