@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model RFP {
+  id                String      @id @default(uuid())
+  title             String
+  rawContent        String
+  structuredContent Json
+  createdAt         DateTime    @default(now())
+  vendors           RFPVendor[]
+  proposals         Proposal[]
+}
+
+model Vendor {
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique
+  rfps      RFPVendor[]
+  proposals Proposal[]
+}
+
+model RFPVendor {
+  id       String    @id @default(uuid())
+  rfpId    String
+  vendorId String
+  sentAt   DateTime?
+
+  rfp    RFP    @relation(fields: [rfpId], references: [id])
+  vendor Vendor @relation(fields: [vendorId], references: [id])
+
+  @@unique([rfpId, vendorId])
+}
+
+model Proposal {
+  id String @id @default(uuid())
+
+  rfpId    String
+  vendorId String
+
+  rawContent        String
+  structuredContent Json
+
+  createdAt DateTime @default(now())
+
+  rfp    RFP    @relation(fields: [rfpId], references: [id])
+  vendor Vendor @relation(fields: [vendorId], references: [id])
+
+  @@unique([rfpId, vendorId])
+}

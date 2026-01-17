@@ -1,0 +1,413 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AI-powered RFP Management API",
+    "description": "APIs for creating RFPs, managing vendors, sending RFPs via email, and parsing vendor proposals using AI.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api",
+      "description": "Local development server"
+    }
+  ],
+
+  "tags": [
+    { "name": "RFP", "description": "Request for Proposal APIs" },
+    { "name": "Vendor", "description": "Vendor management APIs" },
+    { "name": "Email", "description": "Inbound email webhook APIs" }
+  ],
+
+  "paths": {
+    "/rfps": {
+      "post": {
+        "summary": "Create RFP (AI-powered)",
+        "tags": ["RFP"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRfpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "RFP created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessRfp"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+
+      "get": {
+        "summary": "List all RFPs",
+        "tags": ["RFP"],
+        "responses": {
+          "200": {
+            "description": "List of RFPs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessRfpList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/rfps/{id}": {
+      "get": {
+        "summary": "Get RFP by ID",
+        "tags": ["RFP"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RFP details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessRfp"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+
+    "/rfps/{id}/send": {
+      "post": {
+        "summary": "Send RFP to selected vendors",
+        "tags": ["RFP"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendRfpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "RFP sent to vendors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+
+    "/vendors": {
+      "post": {
+        "summary": "Create vendor",
+        "tags": ["Vendor"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVendorRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vendor created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessVendor"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      },
+
+      "get": {
+        "summary": "List vendors",
+        "tags": ["Vendor"],
+        "responses": {
+          "200": {
+            "description": "List of vendors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessVendorList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/emails/inbound": {
+      "post": {
+        "summary": "Inbound vendor email webhook",
+        "tags": ["Email"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InboundEmailRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Proposal parsed and stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSuccessProposal"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "CreateRfpRequest": {
+        "type": "object",
+        "required": ["rawInput"],
+        "properties": {
+          "rawInput": {
+            "type": "string",
+            "example": "Need 20 laptops, budget 50k, delivery in 30 days"
+          }
+        }
+      },
+
+      "SendRfpRequest": {
+        "type": "object",
+        "required": ["vendorIds"],
+        "properties": {
+          "vendorIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+
+      "CreateVendorRequest": {
+        "type": "object",
+        "required": ["name", "email"],
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" }
+        }
+      },
+
+      "InboundEmailRequest": {
+        "type": "object",
+        "required": ["text", "custom_args"],
+        "properties": {
+          "from": { "type": "string" },
+          "text": { "type": "string" },
+          "custom_args": {
+            "type": "object",
+            "required": ["rfpId", "vendorId"],
+            "properties": {
+              "rfpId": { "type": "string" },
+              "vendorId": { "type": "string" }
+            }
+          }
+        }
+      },
+
+      "Rfp": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "rawContent": { "type": "string" },
+          "structuredContent": { "type": "object" }
+        }
+      },
+
+      "Vendor": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "email": { "type": "string" }
+        }
+      },
+
+      "Proposal": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "rfpId": { "type": "string" },
+          "vendorId": { "type": "string" },
+          "rawContent": { "type": "string" },
+          "structuredContent": { "type": "object" }
+        }
+      },
+
+      "ApiSuccessRfp": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/Rfp" }
+        }
+      },
+
+      "ApiSuccessRfpList": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Rfp" }
+          }
+        }
+      },
+
+      "ApiSuccessVendor": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/Vendor" }
+        }
+      },
+
+      "ApiSuccessVendorList": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Vendor" }
+          }
+        }
+      },
+
+      "ApiSuccessProposal": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/Proposal" }
+        }
+      },
+
+      "ApiSuccessMessage": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" }
+            }
+          }
+        }
+      },
+
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
+        }
+      }
+    }
+  }
+}
