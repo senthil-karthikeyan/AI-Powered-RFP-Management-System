@@ -39,7 +39,14 @@ export const ProposalEvaluationSchema = z.object({
       proposalId: z.string(),
       vendorId: z.string(),
       totalScore: z.number(), // 0–100
-      breakdown: z.record(z.string(), z.number()),
+
+      breakdown: z.array(
+        z.object({
+          criterion: z.string(),
+          score: z.number(),
+        })
+      ),
+
       pros: z.array(z.string()),
       cons: z.array(z.string()),
     })

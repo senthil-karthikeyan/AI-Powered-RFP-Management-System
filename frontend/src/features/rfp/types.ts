@@ -49,6 +49,7 @@ export type Rfp = {
   rawContent: string
   structuredContent: RfpStructuredContent
   createdAt: string
+
   vendors?: {
     vendor: {
       id: string
@@ -56,8 +57,10 @@ export type Rfp = {
       email: string
     }
   }[]
+
   proposals?: Proposal[]
-  proposalEvaluation?: ProposalEvaluation
+
+  proposalEvaluations?: ProposalEvaluation[]
 }
 
 export interface ProposalEvaluation {
@@ -65,13 +68,23 @@ export interface ProposalEvaluation {
   rfpId: string
 
   summary: {
-    overview: string
-    reasoning: {
+    reasoning: string
+
+    scores: {
       vendorId: string
-      vendorName?: string
+      proposalId: string
       pros: string[]
       cons: string[]
-      score?: number
+      totalScore: number
+      breakdown: {
+        criterion: string
+        score: number
+      }[]
+    }[]
+
+    criteria: {
+      name: string
+      weight: number
     }[]
   }
 

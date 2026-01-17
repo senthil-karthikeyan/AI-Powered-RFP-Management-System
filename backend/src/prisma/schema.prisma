@@ -34,8 +34,8 @@ model Vendor {
 
 model RFPVendor {
   id       String    @id @default(uuid())
-  rfpId    String    @unique
-  vendorId String    @unique
+  rfpId    String
+  vendorId String
   sentAt   DateTime?
 
   rfp    RFP    @relation(fields: [rfpId], references: [id])
@@ -47,8 +47,8 @@ model RFPVendor {
 model Proposal {
   id String @id @default(uuid())
 
-  rfpId    String @unique
-  vendorId String @unique
+  rfpId    String
+  vendorId String
 
   rawContent        String
   structuredContent Json

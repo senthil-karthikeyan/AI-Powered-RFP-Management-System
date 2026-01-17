@@ -5,13 +5,15 @@ import { useRfps } from "@/services"
 export const ProposalEvaluation = ({ rfp }: { rfp: Rfp }) => {
   const { useEvaluateRfp } = useRfps()
   const { mutate: evaluate, isPending } = useEvaluateRfp()
-  1
+
+  const evaluation = rfp?.proposalEvaluations?.[0]
+
   const handleEvaluate = () => {
     evaluate(rfp.id)
   }
 
   // Need at least 2 proposals to compare
-  if (!rfp?.proposals || rfp?.proposals?.length < 2) {
+  if (!rfp?.proposals || rfp.proposals.length < 2) {
     return (
       <div className="p-4 border rounded-md text-gray-500 bg-gray-50">
         At least two vendor proposals are required for evaluation.
@@ -31,37 +33,47 @@ export const ProposalEvaluation = ({ rfp }: { rfp: Rfp }) => {
         </Button>
       </div>
 
-      {rfp?.proposalEvaluation && (
+      {evaluation && (
         <div className="space-y-4">
           <p className="text-sm text-gray-700">
-            {rfp?.proposalEvaluation?.summary?.overview}
+            {evaluation.summary.reasoning}
           </p>
 
           <div className="grid gap-3">
-            {rfp?.proposalEvaluation?.summary?.reasoning?.map((r) => (
+            {evaluation.summary.scores.map((score) => (
               <div
-                key={r.vendorId}
+                key={score.vendorId}
                 className={`p-3 rounded-md border ${
-                  r.vendorId === rfp?.proposalEvaluation?.recommendedId
+                  score.proposalId === evaluation.recommendedId
                     ? "border-green-500 bg-green-50"
                     : "bg-white"
                 }`}
               >
-                <div className="font-medium">Vendor: {r?.vendorId}</div>
+                <div className="font-medium">
+                  Vendor:{" "}
+                  {
+                    rfp.vendors?.find((v) => v.vendor.id === score.vendorId)
+                      ?.vendor.name
+                  }
+                </div>
 
                 <div className="text-sm mt-1">
+                  <strong>Total Score:</strong> {score.totalScore}
+                </div>
+
+                <div className="text-sm mt-2">
                   <strong>Pros</strong>
                   <ul className="list-disc ml-4">
-                    {r?.pros?.map((p, i) => (
+                    {score.pros.map((p, i) => (
                       <li key={i}>{p}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="text-sm mt-1">
+                <div className="text-sm mt-2">
                   <strong>Cons</strong>
                   <ul className="list-disc ml-4">
-                    {r?.cons?.map((c, i) => (
+                    {score.cons.map((c, i) => (
                       <li key={i}>{c}</li>
                     ))}
                   </ul>
