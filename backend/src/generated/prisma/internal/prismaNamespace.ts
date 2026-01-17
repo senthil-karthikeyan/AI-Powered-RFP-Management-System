@@ -387,7 +387,8 @@ export const ModelName = {
   RFP: 'RFP',
   Vendor: 'Vendor',
   RFPVendor: 'RFPVendor',
-  Proposal: 'Proposal'
+  Proposal: 'Proposal',
+  ProposalEvaluation: 'ProposalEvaluation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "rFP" | "vendor" | "rFPVendor" | "proposal"
+    modelProps: "rFP" | "vendor" | "rFPVendor" | "proposal" | "proposalEvaluation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -703,6 +704,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProposalEvaluation: {
+      payload: Prisma.$ProposalEvaluationPayload<ExtArgs>
+      fields: Prisma.ProposalEvaluationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProposalEvaluationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProposalEvaluationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>
+        }
+        findFirst: {
+          args: Prisma.ProposalEvaluationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProposalEvaluationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>
+        }
+        findMany: {
+          args: Prisma.ProposalEvaluationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>[]
+        }
+        create: {
+          args: Prisma.ProposalEvaluationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>
+        }
+        createMany: {
+          args: Prisma.ProposalEvaluationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProposalEvaluationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>[]
+        }
+        delete: {
+          args: Prisma.ProposalEvaluationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>
+        }
+        update: {
+          args: Prisma.ProposalEvaluationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProposalEvaluationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProposalEvaluationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProposalEvaluationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProposalEvaluationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProposalEvaluationPayload>
+        }
+        aggregate: {
+          args: Prisma.ProposalEvaluationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProposalEvaluation>
+        }
+        groupBy: {
+          args: Prisma.ProposalEvaluationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProposalEvaluationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProposalEvaluationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProposalEvaluationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -782,6 +857,17 @@ export const ProposalScalarFieldEnum = {
 } as const
 
 export type ProposalScalarFieldEnum = (typeof ProposalScalarFieldEnum)[keyof typeof ProposalScalarFieldEnum]
+
+
+export const ProposalEvaluationScalarFieldEnum = {
+  id: 'id',
+  rfpId: 'rfpId',
+  summary: 'summary',
+  recommendedId: 'recommendedId',
+  createdAt: 'createdAt'
+} as const
+
+export type ProposalEvaluationScalarFieldEnum = (typeof ProposalEvaluationScalarFieldEnum)[keyof typeof ProposalEvaluationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -984,6 +1070,7 @@ export type GlobalOmitConfig = {
   vendor?: Prisma.VendorOmit
   rFPVendor?: Prisma.RFPVendorOmit
   proposal?: Prisma.ProposalOmit
+  proposalEvaluation?: Prisma.ProposalEvaluationOmit
 }
 
 /* Types for Logging */

@@ -25,3 +25,26 @@ export const ProposalSchema = z.object({
   warranty: z.string().optional(),
   notes: z.string().optional(),
 });
+
+export const ProposalEvaluationSchema = z.object({
+  criteria: z.array(
+    z.object({
+      name: z.string(),
+      weight: z.number(),
+    })
+  ),
+
+  scores: z.array(
+    z.object({
+      proposalId: z.string(),
+      vendorId: z.string(),
+      totalScore: z.number(), // 0–100
+      breakdown: z.record(z.string(), z.number()),
+      pros: z.array(z.string()),
+      cons: z.array(z.string()),
+    })
+  ),
+
+  recommendedProposalId: z.string(),
+  reasoning: z.string(),
+});

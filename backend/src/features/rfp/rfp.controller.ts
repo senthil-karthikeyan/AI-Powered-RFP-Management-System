@@ -107,3 +107,26 @@ export const sendRfp = async (
     next(err);
   }
 };
+
+export const evaluateProposals = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await service.evaluateRfpProposals(req.params.id);
+
+    if (!result) {
+      return error(
+        res,
+        HTTP_STATUS.BAD_REQUEST,
+        ERROR_MESSAGES.INVALID_PARAMS,
+        "At least two proposals are required"
+      );
+    }
+
+    return success(res, result);
+  } catch (err) {
+    next(err);
+  }
+};

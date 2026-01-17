@@ -14,3 +14,6 @@ export const ERROR_MESSAGES = {
   VENDOR_NOT_FOUND: "VENDOR_NOT_FOUND",
   INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 };
+
+export const IDENTIFIER_REGEX =
+  /References:\s*<RFP_([a-f0-9-]+)VENDOR_([a-f0-9-]+)@/i;

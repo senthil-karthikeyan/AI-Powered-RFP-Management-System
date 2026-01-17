@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "AI-powered RFP Management API",
-    "description": "APIs for creating RFPs, managing vendors, sending RFPs via email, and parsing vendor proposals using AI.",
-    "version": "1.0.0"
+    "description": "APIs for creating RFPs, managing vendors, sending RFPs via email, parsing vendor proposals, and AI-assisted proposal evaluation.",
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -11,13 +11,11 @@
       "description": "Local development server"
     }
   ],
-
   "tags": [
     { "name": "RFP", "description": "Request for Proposal APIs" },
     { "name": "Vendor", "description": "Vendor management APIs" },
     { "name": "Email", "description": "Inbound email webhook APIs" }
   ],
-
   "paths": {
     "/rfps": {
       "post": {
@@ -27,9 +25,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateRfpRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateRfpRequest" }
             }
           }
         },
@@ -38,21 +34,14 @@
             "description": "RFP created successfully",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiSuccessRfp"
-                }
+                "schema": { "$ref": "#/components/schemas/ApiSuccessRfp" }
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
         }
       },
-
       "get": {
         "summary": "List all RFPs",
         "tags": ["RFP"],
@@ -61,9 +50,7 @@
             "description": "List of RFPs",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiSuccessRfpList"
-                }
+                "schema": { "$ref": "#/components/schemas/ApiSuccessRfpList" }
               }
             }
           }
@@ -88,15 +75,11 @@
             "description": "RFP details",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiSuccessRfp"
-                }
+                "schema": { "$ref": "#/components/schemas/ApiSuccessRfp" }
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
+          "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
     },
@@ -117,9 +100,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SendRfpRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/SendRfpRequest" }
             }
           }
         },
@@ -128,15 +109,49 @@
             "description": "RFP sent to vendors",
             "content": {
               "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiSuccessMessage" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+
+    "/rfps/{id}/evaluate": {
+      "post": {
+        "summary": "Evaluate vendor proposals (AI-assisted)",
+        "description": "Compares all proposals for an RFP and returns a ranked evaluation with an AI recommendation.",
+        "tags": ["RFP"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EvaluateRfpRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation completed",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiSuccessMessage"
+                  "$ref": "#/components/schemas/ApiSuccessEvaluation"
                 }
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          }
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "400": { "$ref": "#/components/responses/BadRequest" }
         }
       }
     },
@@ -149,9 +164,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateVendorRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateVendorRequest" }
             }
           }
         },
@@ -160,18 +173,13 @@
             "description": "Vendor created",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiSuccessVendor"
-                }
+                "schema": { "$ref": "#/components/schemas/ApiSuccessVendor" }
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" }
         }
       },
-
       "get": {
         "summary": "List vendors",
         "tags": ["Vendor"],
@@ -198,9 +206,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InboundEmailRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/InboundEmailRequest" }
             }
           }
         },
@@ -209,15 +215,11 @@
             "description": "Proposal parsed and stored",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiSuccessProposal"
-                }
+                "schema": { "$ref": "#/components/schemas/ApiSuccessProposal" }
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" }
         }
       }
     }
@@ -229,10 +231,7 @@
         "type": "object",
         "required": ["rawInput"],
         "properties": {
-          "rawInput": {
-            "type": "string",
-            "example": "Need 20 laptops, budget 50k, delivery in 30 days"
-          }
+          "rawInput": { "type": "string" }
         }
       },
 
@@ -240,10 +239,7 @@
         "type": "object",
         "required": ["vendorIds"],
         "properties": {
-          "vendorIds": {
-            "type": "array",
-            "items": { "type": "string" }
-          }
+          "vendorIds": { "type": "array", "items": { "type": "string" } }
         }
       },
 
@@ -270,6 +266,56 @@
               "vendorId": { "type": "string" }
             }
           }
+        }
+      },
+
+      "EvaluateRfpRequest": {
+        "type": "object",
+        "properties": {
+          "criteria": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/EvaluationCriterion" }
+          }
+        }
+      },
+
+      "EvaluationCriterion": {
+        "type": "object",
+        "required": ["name", "weight"],
+        "properties": {
+          "name": { "type": "string" },
+          "weight": { "type": "number" }
+        }
+      },
+
+      "ProposalScore": {
+        "type": "object",
+        "properties": {
+          "proposalId": { "type": "string" },
+          "vendorId": { "type": "string" },
+          "totalScore": { "type": "number" },
+          "breakdown": {
+            "type": "object",
+            "additionalProperties": { "type": "number" }
+          },
+          "pros": { "type": "array", "items": { "type": "string" } },
+          "cons": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+
+      "EvaluationResult": {
+        "type": "object",
+        "properties": {
+          "criteria": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/EvaluationCriterion" }
+          },
+          "scores": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ProposalScore" }
+          },
+          "recommendedProposalId": { "type": "string" },
+          "reasoning": { "type": "string" }
         }
       },
 
@@ -349,6 +395,14 @@
         }
       },
 
+      "ApiSuccessEvaluation": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/EvaluationResult" }
+        }
+      },
+
       "ApiSuccessMessage": {
         "type": "object",
         "properties": {
@@ -382,9 +436,7 @@
         "description": "Invalid request",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiError"
-            }
+            "schema": { "$ref": "#/components/schemas/ApiError" }
           }
         }
       },
@@ -392,9 +444,7 @@
         "description": "Resource not found",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiError"
-            }
+            "schema": { "$ref": "#/components/schemas/ApiError" }
           }
         }
       },
@@ -402,9 +452,7 @@
         "description": "Internal server error",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiError"
-            }
+            "schema": { "$ref": "#/components/schemas/ApiError" }
           }
         }
       }

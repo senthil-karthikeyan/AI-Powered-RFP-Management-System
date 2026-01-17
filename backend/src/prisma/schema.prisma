@@ -14,13 +14,14 @@ datasource db {
 }
 
 model RFP {
-  id                String      @id @default(uuid())
-  title             String
-  rawContent        String
-  structuredContent Json
-  createdAt         DateTime    @default(now())
-  vendors           RFPVendor[]
-  proposals         Proposal[]
+  id                  String               @id @default(uuid())
+  title               String
+  rawContent          String
+  structuredContent   Json
+  createdAt           DateTime             @default(now())
+  vendors             RFPVendor[]
+  proposals           Proposal[]
+  proposalEvaluations ProposalEvaluation[]
 }
 
 model Vendor {
@@ -33,8 +34,8 @@ model Vendor {
 
 model RFPVendor {
   id       String    @id @default(uuid())
-  rfpId    String
-  vendorId String
+  rfpId    String    @unique
+  vendorId String    @unique
   sentAt   DateTime?
 
   rfp    RFP    @relation(fields: [rfpId], references: [id])
@@ -46,8 +47,8 @@ model RFPVendor {
 model Proposal {
   id String @id @default(uuid())
 
-  rfpId    String
-  vendorId String
+  rfpId    String @unique
+  vendorId String @unique
 
   rawContent        String
   structuredContent Json
@@ -58,4 +59,14 @@ model Proposal {
   vendor Vendor @relation(fields: [vendorId], references: [id])
 
   @@unique([rfpId, vendorId])
+}
+
+model ProposalEvaluation {
+  id            String   @id @default(uuid())
+  rfpId         String   @unique
+  summary       Json
+  recommendedId String?
+  createdAt     DateTime @default(now())
+
+  rfp RFP @relation(fields: [rfpId], references: [id])
 }

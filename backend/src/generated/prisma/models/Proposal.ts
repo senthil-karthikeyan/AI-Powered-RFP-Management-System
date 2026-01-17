@@ -203,18 +203,18 @@ export type ProposalOrderByWithRelationInput = {
 
 export type ProposalWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  rfpId?: string
+  vendorId?: string
   rfpId_vendorId?: Prisma.ProposalRfpIdVendorIdCompoundUniqueInput
   AND?: Prisma.ProposalWhereInput | Prisma.ProposalWhereInput[]
   OR?: Prisma.ProposalWhereInput[]
   NOT?: Prisma.ProposalWhereInput | Prisma.ProposalWhereInput[]
-  rfpId?: Prisma.StringFilter<"Proposal"> | string
-  vendorId?: Prisma.StringFilter<"Proposal"> | string
   rawContent?: Prisma.StringFilter<"Proposal"> | string
   structuredContent?: Prisma.JsonFilter<"Proposal">
   createdAt?: Prisma.DateTimeFilter<"Proposal"> | Date | string
   rfp?: Prisma.XOR<Prisma.RFPScalarRelationFilter, Prisma.RFPWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
-}, "id" | "rfpId_vendorId">
+}, "id" | "rfpId" | "vendorId" | "rfpId_vendorId">
 
 export type ProposalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

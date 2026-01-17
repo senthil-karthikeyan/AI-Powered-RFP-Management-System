@@ -37,3 +37,8 @@ export type RFPVendor = Prisma.RFPVendorModel
  * 
  */
 export type Proposal = Prisma.ProposalModel
+/**
+ * Model ProposalEvaluation
+ * 
+ */
+export type ProposalEvaluation = Prisma.ProposalEvaluationModel

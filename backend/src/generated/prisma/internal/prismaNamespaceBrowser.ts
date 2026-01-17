@@ -54,7 +54,8 @@ export const ModelName = {
   RFP: 'RFP',
   Vendor: 'Vendor',
   RFPVendor: 'RFPVendor',
-  Proposal: 'Proposal'
+  Proposal: 'Proposal',
+  ProposalEvaluation: 'ProposalEvaluation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -113,6 +114,17 @@ export const ProposalScalarFieldEnum = {
 } as const
 
 export type ProposalScalarFieldEnum = (typeof ProposalScalarFieldEnum)[keyof typeof ProposalScalarFieldEnum]
+
+
+export const ProposalEvaluationScalarFieldEnum = {
+  id: 'id',
+  rfpId: 'rfpId',
+  summary: 'summary',
+  recommendedId: 'recommendedId',
+  createdAt: 'createdAt'
+} as const
+
+export type ProposalEvaluationScalarFieldEnum = (typeof ProposalEvaluationScalarFieldEnum)[keyof typeof ProposalEvaluationScalarFieldEnum]
 
 
 export const SortOrder = {

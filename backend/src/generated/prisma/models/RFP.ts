@@ -180,6 +180,7 @@ export type RFPWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"RFP"> | Date | string
   vendors?: Prisma.RFPVendorListRelationFilter
   proposals?: Prisma.ProposalListRelationFilter
+  proposalEvaluations?: Prisma.ProposalEvaluationListRelationFilter
 }
 
 export type RFPOrderByWithRelationInput = {
@@ -190,6 +191,7 @@ export type RFPOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   vendors?: Prisma.RFPVendorOrderByRelationAggregateInput
   proposals?: Prisma.ProposalOrderByRelationAggregateInput
+  proposalEvaluations?: Prisma.ProposalEvaluationOrderByRelationAggregateInput
 }
 
 export type RFPWhereUniqueInput = Prisma.AtLeast<{
@@ -203,6 +205,7 @@ export type RFPWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"RFP"> | Date | string
   vendors?: Prisma.RFPVendorListRelationFilter
   proposals?: Prisma.ProposalListRelationFilter
+  proposalEvaluations?: Prisma.ProposalEvaluationListRelationFilter
 }, "id">
 
 export type RFPOrderByWithAggregationInput = {
@@ -235,6 +238,7 @@ export type RFPCreateInput = {
   createdAt?: Date | string
   vendors?: Prisma.RFPVendorCreateNestedManyWithoutRfpInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutRfpInput
+  proposalEvaluations?: Prisma.ProposalEvaluationCreateNestedManyWithoutRfpInput
 }
 
 export type RFPUncheckedCreateInput = {
@@ -245,6 +249,7 @@ export type RFPUncheckedCreateInput = {
   createdAt?: Date | string
   vendors?: Prisma.RFPVendorUncheckedCreateNestedManyWithoutRfpInput
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutRfpInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUncheckedCreateNestedManyWithoutRfpInput
 }
 
 export type RFPUpdateInput = {
@@ -255,6 +260,7 @@ export type RFPUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendors?: Prisma.RFPVendorUpdateManyWithoutRfpNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutRfpNestedInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUpdateManyWithoutRfpNestedInput
 }
 
 export type RFPUncheckedUpdateInput = {
@@ -265,6 +271,7 @@ export type RFPUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendors?: Prisma.RFPVendorUncheckedUpdateManyWithoutRfpNestedInput
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutRfpNestedInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUncheckedUpdateManyWithoutRfpNestedInput
 }
 
 export type RFPCreateManyInput = {
@@ -354,6 +361,20 @@ export type RFPUpdateOneRequiredWithoutProposalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RFPUpdateToOneWithWhereWithoutProposalsInput, Prisma.RFPUpdateWithoutProposalsInput>, Prisma.RFPUncheckedUpdateWithoutProposalsInput>
 }
 
+export type RFPCreateNestedOneWithoutProposalEvaluationsInput = {
+  create?: Prisma.XOR<Prisma.RFPCreateWithoutProposalEvaluationsInput, Prisma.RFPUncheckedCreateWithoutProposalEvaluationsInput>
+  connectOrCreate?: Prisma.RFPCreateOrConnectWithoutProposalEvaluationsInput
+  connect?: Prisma.RFPWhereUniqueInput
+}
+
+export type RFPUpdateOneRequiredWithoutProposalEvaluationsNestedInput = {
+  create?: Prisma.XOR<Prisma.RFPCreateWithoutProposalEvaluationsInput, Prisma.RFPUncheckedCreateWithoutProposalEvaluationsInput>
+  connectOrCreate?: Prisma.RFPCreateOrConnectWithoutProposalEvaluationsInput
+  upsert?: Prisma.RFPUpsertWithoutProposalEvaluationsInput
+  connect?: Prisma.RFPWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RFPUpdateToOneWithWhereWithoutProposalEvaluationsInput, Prisma.RFPUpdateWithoutProposalEvaluationsInput>, Prisma.RFPUncheckedUpdateWithoutProposalEvaluationsInput>
+}
+
 export type RFPCreateWithoutVendorsInput = {
   id?: string
   title: string
@@ -361,6 +382,7 @@ export type RFPCreateWithoutVendorsInput = {
   structuredContent: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   proposals?: Prisma.ProposalCreateNestedManyWithoutRfpInput
+  proposalEvaluations?: Prisma.ProposalEvaluationCreateNestedManyWithoutRfpInput
 }
 
 export type RFPUncheckedCreateWithoutVendorsInput = {
@@ -370,6 +392,7 @@ export type RFPUncheckedCreateWithoutVendorsInput = {
   structuredContent: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutRfpInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUncheckedCreateNestedManyWithoutRfpInput
 }
 
 export type RFPCreateOrConnectWithoutVendorsInput = {
@@ -395,6 +418,7 @@ export type RFPUpdateWithoutVendorsInput = {
   structuredContent?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUpdateManyWithoutRfpNestedInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUpdateManyWithoutRfpNestedInput
 }
 
 export type RFPUncheckedUpdateWithoutVendorsInput = {
@@ -404,6 +428,7 @@ export type RFPUncheckedUpdateWithoutVendorsInput = {
   structuredContent?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutRfpNestedInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUncheckedUpdateManyWithoutRfpNestedInput
 }
 
 export type RFPCreateWithoutProposalsInput = {
@@ -413,6 +438,7 @@ export type RFPCreateWithoutProposalsInput = {
   structuredContent: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   vendors?: Prisma.RFPVendorCreateNestedManyWithoutRfpInput
+  proposalEvaluations?: Prisma.ProposalEvaluationCreateNestedManyWithoutRfpInput
 }
 
 export type RFPUncheckedCreateWithoutProposalsInput = {
@@ -422,6 +448,7 @@ export type RFPUncheckedCreateWithoutProposalsInput = {
   structuredContent: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   vendors?: Prisma.RFPVendorUncheckedCreateNestedManyWithoutRfpInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUncheckedCreateNestedManyWithoutRfpInput
 }
 
 export type RFPCreateOrConnectWithoutProposalsInput = {
@@ -447,6 +474,7 @@ export type RFPUpdateWithoutProposalsInput = {
   structuredContent?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendors?: Prisma.RFPVendorUpdateManyWithoutRfpNestedInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUpdateManyWithoutRfpNestedInput
 }
 
 export type RFPUncheckedUpdateWithoutProposalsInput = {
@@ -456,6 +484,63 @@ export type RFPUncheckedUpdateWithoutProposalsInput = {
   structuredContent?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendors?: Prisma.RFPVendorUncheckedUpdateManyWithoutRfpNestedInput
+  proposalEvaluations?: Prisma.ProposalEvaluationUncheckedUpdateManyWithoutRfpNestedInput
+}
+
+export type RFPCreateWithoutProposalEvaluationsInput = {
+  id?: string
+  title: string
+  rawContent: string
+  structuredContent: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  vendors?: Prisma.RFPVendorCreateNestedManyWithoutRfpInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutRfpInput
+}
+
+export type RFPUncheckedCreateWithoutProposalEvaluationsInput = {
+  id?: string
+  title: string
+  rawContent: string
+  structuredContent: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  vendors?: Prisma.RFPVendorUncheckedCreateNestedManyWithoutRfpInput
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutRfpInput
+}
+
+export type RFPCreateOrConnectWithoutProposalEvaluationsInput = {
+  where: Prisma.RFPWhereUniqueInput
+  create: Prisma.XOR<Prisma.RFPCreateWithoutProposalEvaluationsInput, Prisma.RFPUncheckedCreateWithoutProposalEvaluationsInput>
+}
+
+export type RFPUpsertWithoutProposalEvaluationsInput = {
+  update: Prisma.XOR<Prisma.RFPUpdateWithoutProposalEvaluationsInput, Prisma.RFPUncheckedUpdateWithoutProposalEvaluationsInput>
+  create: Prisma.XOR<Prisma.RFPCreateWithoutProposalEvaluationsInput, Prisma.RFPUncheckedCreateWithoutProposalEvaluationsInput>
+  where?: Prisma.RFPWhereInput
+}
+
+export type RFPUpdateToOneWithWhereWithoutProposalEvaluationsInput = {
+  where?: Prisma.RFPWhereInput
+  data: Prisma.XOR<Prisma.RFPUpdateWithoutProposalEvaluationsInput, Prisma.RFPUncheckedUpdateWithoutProposalEvaluationsInput>
+}
+
+export type RFPUpdateWithoutProposalEvaluationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  rawContent?: Prisma.StringFieldUpdateOperationsInput | string
+  structuredContent?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vendors?: Prisma.RFPVendorUpdateManyWithoutRfpNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutRfpNestedInput
+}
+
+export type RFPUncheckedUpdateWithoutProposalEvaluationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  rawContent?: Prisma.StringFieldUpdateOperationsInput | string
+  structuredContent?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vendors?: Prisma.RFPVendorUncheckedUpdateManyWithoutRfpNestedInput
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutRfpNestedInput
 }
 
 
@@ -466,11 +551,13 @@ export type RFPUncheckedUpdateWithoutProposalsInput = {
 export type RFPCountOutputType = {
   vendors: number
   proposals: number
+  proposalEvaluations: number
 }
 
 export type RFPCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vendors?: boolean | RFPCountOutputTypeCountVendorsArgs
   proposals?: boolean | RFPCountOutputTypeCountProposalsArgs
+  proposalEvaluations?: boolean | RFPCountOutputTypeCountProposalEvaluationsArgs
 }
 
 /**
@@ -497,6 +584,13 @@ export type RFPCountOutputTypeCountProposalsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ProposalWhereInput
 }
 
+/**
+ * RFPCountOutputType without action
+ */
+export type RFPCountOutputTypeCountProposalEvaluationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProposalEvaluationWhereInput
+}
+
 
 export type RFPSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -506,6 +600,7 @@ export type RFPSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   createdAt?: boolean
   vendors?: boolean | Prisma.RFP$vendorsArgs<ExtArgs>
   proposals?: boolean | Prisma.RFP$proposalsArgs<ExtArgs>
+  proposalEvaluations?: boolean | Prisma.RFP$proposalEvaluationsArgs<ExtArgs>
   _count?: boolean | Prisma.RFPCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rFP"]>
 
@@ -537,6 +632,7 @@ export type RFPOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
 export type RFPInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vendors?: boolean | Prisma.RFP$vendorsArgs<ExtArgs>
   proposals?: boolean | Prisma.RFP$proposalsArgs<ExtArgs>
+  proposalEvaluations?: boolean | Prisma.RFP$proposalEvaluationsArgs<ExtArgs>
   _count?: boolean | Prisma.RFPCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RFPIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -547,6 +643,7 @@ export type $RFPPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   objects: {
     vendors: Prisma.$RFPVendorPayload<ExtArgs>[]
     proposals: Prisma.$ProposalPayload<ExtArgs>[]
+    proposalEvaluations: Prisma.$ProposalEvaluationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -950,6 +1047,7 @@ export interface Prisma__RFPClient<T, Null = never, ExtArgs extends runtime.Type
   readonly [Symbol.toStringTag]: "PrismaPromise"
   vendors<T extends Prisma.RFP$vendorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RFP$vendorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RFPVendorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   proposals<T extends Prisma.RFP$proposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RFP$proposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  proposalEvaluations<T extends Prisma.RFP$proposalEvaluationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RFP$proposalEvaluationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProposalEvaluationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1417,6 +1515,30 @@ export type RFP$proposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ProposalScalarFieldEnum | Prisma.ProposalScalarFieldEnum[]
+}
+
+/**
+ * RFP.proposalEvaluations
+ */
+export type RFP$proposalEvaluationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProposalEvaluation
+   */
+  select?: Prisma.ProposalEvaluationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProposalEvaluation
+   */
+  omit?: Prisma.ProposalEvaluationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProposalEvaluationInclude<ExtArgs> | null
+  where?: Prisma.ProposalEvaluationWhereInput
+  orderBy?: Prisma.ProposalEvaluationOrderByWithRelationInput | Prisma.ProposalEvaluationOrderByWithRelationInput[]
+  cursor?: Prisma.ProposalEvaluationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProposalEvaluationScalarFieldEnum | Prisma.ProposalEvaluationScalarFieldEnum[]
 }
 
 /**

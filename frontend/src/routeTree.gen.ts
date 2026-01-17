@@ -9,38 +9,75 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VendorsRouteImport } from './routes/vendors'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RfpsIndexRouteImport } from './routes/rfps/index'
+import { Route as RfpsIdIndexRouteImport } from './routes/rfps/$id/index'
 
+const VendorsRoute = VendorsRouteImport.update({
+  id: '/vendors',
+  path: '/vendors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RfpsIndexRoute = RfpsIndexRouteImport.update({
+  id: '/rfps/',
+  path: '/rfps/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfpsIdIndexRoute = RfpsIdIndexRouteImport.update({
+  id: '/rfps/$id/',
+  path: '/rfps/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/vendors': typeof VendorsRoute
+  '/rfps': typeof RfpsIndexRoute
+  '/rfps/$id': typeof RfpsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/vendors': typeof VendorsRoute
+  '/rfps': typeof RfpsIndexRoute
+  '/rfps/$id': typeof RfpsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/vendors': typeof VendorsRoute
+  '/rfps/': typeof RfpsIndexRoute
+  '/rfps/$id/': typeof RfpsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/vendors' | '/rfps' | '/rfps/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/vendors' | '/rfps' | '/rfps/$id'
+  id: '__root__' | '/' | '/vendors' | '/rfps/' | '/rfps/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  VendorsRoute: typeof VendorsRoute
+  RfpsIndexRoute: typeof RfpsIndexRoute
+  RfpsIdIndexRoute: typeof RfpsIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vendors': {
+      id: '/vendors'
+      path: '/vendors'
+      fullPath: '/vendors'
+      preLoaderRoute: typeof VendorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rfps/': {
+      id: '/rfps/'
+      path: '/rfps'
+      fullPath: '/rfps'
+      preLoaderRoute: typeof RfpsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfps/$id/': {
+      id: '/rfps/$id/'
+      path: '/rfps/$id'
+      fullPath: '/rfps/$id'
+      preLoaderRoute: typeof RfpsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  VendorsRoute: VendorsRoute,
+  RfpsIndexRoute: RfpsIndexRoute,
+  RfpsIdIndexRoute: RfpsIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

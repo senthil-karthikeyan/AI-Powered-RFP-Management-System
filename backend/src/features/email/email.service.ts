@@ -1,28 +1,25 @@
 import { prisma } from "@/shared/lib";
 import { parseVendorProposal } from "@/shared/ai";
 
-export const handleInboundEmail = async (payload: {
-  from: string;
+export const handleInboundEmail = async ({
+  text,
+  rfpId,
+  vendorId,
+}: {
   text: string;
-  custom_args: {
-    rfpId: string;
-    vendorId: string;
-  };
+  rfpId: string;
+  vendorId: string;
 }) => {
-  const { custom_args } = payload;
+  if (!rfpId || !vendorId) return;
 
-  if (!custom_args?.rfpId || !custom_args?.vendorId) return;
-
-  const { rfpId, vendorId } = custom_args;
-
-  const structuredProposal = await parseVendorProposal(payload.text);
+  const structuredProposal = await parseVendorProposal(text);
 
   // 2. Persist proposal
   return prisma.proposal.create({
     data: {
       rfpId,
       vendorId,
-      rawContent: payload.text,
+      rawContent: text,
       structuredContent: structuredProposal,
     },
   });

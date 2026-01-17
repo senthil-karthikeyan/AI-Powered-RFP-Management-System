@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { handleInboundEmail } from "./email.service";
-import { success, error, HTTP_STATUS, ERROR_MESSAGES } from "@/shared/utils";
+import {
+  success,
+  error,
+  HTTP_STATUS,
+  ERROR_MESSAGES,
+  IDENTIFIER_REGEX,
+} from "@/shared/utils";
 
 export const inboundEmail = async (
   req: Request,
@@ -8,9 +14,16 @@ export const inboundEmail = async (
   next: NextFunction
 ) => {
   try {
-    const { text, custom_args } = req.body;
+    const text = req.body.text;
 
-    if (!text || !custom_args?.rfpId || !custom_args?.vendorId) {
+    const rawEmail = req.body.email;
+
+    const match = rawEmail.match(IDENTIFIER_REGEX);
+
+    const rfpId = match?.[1] ?? null;
+    const vendorId = match?.[2] ?? null;
+
+    if (!text || !rfpId || !vendorId) {
       return error(
         res,
         HTTP_STATUS.BAD_REQUEST,
@@ -19,7 +32,7 @@ export const inboundEmail = async (
       );
     }
 
-    const proposal = await handleInboundEmail(req.body);
+    const proposal = await handleInboundEmail({ text, rfpId, vendorId });
 
     if (!proposal) {
       // nothing to persist (ignored email)

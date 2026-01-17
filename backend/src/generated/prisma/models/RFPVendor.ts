@@ -189,16 +189,16 @@ export type RFPVendorOrderByWithRelationInput = {
 
 export type RFPVendorWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  rfpId?: string
+  vendorId?: string
   rfpId_vendorId?: Prisma.RFPVendorRfpIdVendorIdCompoundUniqueInput
   AND?: Prisma.RFPVendorWhereInput | Prisma.RFPVendorWhereInput[]
   OR?: Prisma.RFPVendorWhereInput[]
   NOT?: Prisma.RFPVendorWhereInput | Prisma.RFPVendorWhereInput[]
-  rfpId?: Prisma.StringFilter<"RFPVendor"> | string
-  vendorId?: Prisma.StringFilter<"RFPVendor"> | string
   sentAt?: Prisma.DateTimeNullableFilter<"RFPVendor"> | Date | string | null
   rfp?: Prisma.XOR<Prisma.RFPScalarRelationFilter, Prisma.RFPWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
-}, "id" | "rfpId_vendorId">
+}, "id" | "rfpId" | "vendorId" | "rfpId_vendorId">
 
 export type RFPVendorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
