@@ -13,7 +13,14 @@ export const createRfp = async (rawInput: string) => {
   });
 };
 
-export const listRfps = () => prisma.rFP.findMany();
+export const listRfps = () =>
+  prisma.rFP.findMany({
+    include: {
+      vendors: { include: { vendor: true } },
+      proposals: { include: { vendor: true } },
+      proposalEvaluations: true,
+    },
+  });
 
 export const getRfp = (id: string) =>
   prisma.rFP.findUnique({
